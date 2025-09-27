@@ -1,6 +1,6 @@
 # X Profiler 🚀
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue)](https://github.com/yourusername/x-profiler/releases)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue)](https://github.com/aref-vc/x-profiler/releases)
 [![Security](https://img.shields.io/badge/security-enhanced-green)](./SECURITY.md)
 [![License](https://img.shields.io/badge/license-MIT-purple)](./LICENSE)
 
@@ -52,7 +52,7 @@ An AI-powered Twitter/X profile analyzer that decodes viral content patterns and
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/x-profiler.git
+git clone https://github.com/aref-vc/x-profiler.git
 cd x-profiler
 ```
 

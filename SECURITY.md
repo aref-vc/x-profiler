@@ -57,7 +57,7 @@ object-src 'none';
 If you discover a security vulnerability in X Profiler, please follow these steps:
 
 1. **DO NOT** open a public issue
-2. Email security details to: [your-security-email@example.com]
+2. Email security details to: hey@aref.vc
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
@@ -126,8 +126,8 @@ Security updates are released as:
 ## Contact
 
 For security concerns, contact:
-- Security Email: [your-security-email@example.com]
-- GPG Key: [link-to-pgp-key]
+- Security Email: hey@aref.vc
+- GitHub Issues: https://github.com/aref-vc/x-profiler/issues (for non-security bugs only)
 
 ## Acknowledgments
 
