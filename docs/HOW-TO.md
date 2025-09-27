@@ -20,6 +20,43 @@ On your first visit, you'll need to configure your API keys. Don't worry, this i
 
 ## 🔑 Setting Up API Keys
 
+### Method 1: Environment Variables (Recommended for v2.0.0)
+
+1. **Copy the environment template**
+   ```bash
+   cp .env.local.example .env.local
+   ```
+
+2. **Edit `.env.local` with your API keys**
+   ```env
+   # X API v2 Credentials
+   X_BEARER_TOKEN=your_bearer_token_here
+
+   # Gemini API
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+
+3. **Restart the development server**
+   ```bash
+   npm run dev
+   ```
+
+### Method 2: Settings Dialog (Browser Storage)
+
+1. **Open Settings**
+   - Click the "Settings" button in the top-right corner
+   - A dialog will open for API configuration
+
+2. **Enter Your Keys**
+   - Paste your X API Bearer Token in the first field
+   - Paste your Google Gemini API Key in the second field
+   - Click "Save Settings"
+
+3. **Verify Configuration**
+   - You'll see a success message
+   - The dialog will close automatically
+   - Your keys are stored in your browser's localStorage
+
 ### Getting Your X (Twitter) API Bearer Token
 
 1. **Create a Twitter Developer Account**
@@ -50,21 +87,13 @@ On your first visit, you'll need to configure your API keys. Don't worry, this i
    - Select "Create API key in new project" or choose existing
    - Copy the generated API key
 
-### Configuring Keys in X Profiler
+### Security Best Practices (v2.0.0)
 
-1. **Open Settings**
-   - Click the "Settings" button in the top-right corner
-   - A dialog will open for API configuration
-
-2. **Enter Your Keys**
-   - Paste your X API Bearer Token in the first field
-   - Paste your Google Gemini API Key in the second field
-   - Click "Save Settings"
-
-3. **Verify Configuration**
-   - You'll see a success message
-   - The dialog will close automatically
-   - Your keys are now stored locally in your browser
+- **Use environment variables** for production deployments
+- **Never commit** `.env.local` to version control
+- **Rotate API keys** regularly
+- **Use separate keys** for development and production
+- **Check `.gitignore`** includes all sensitive files
 
 ## 🔍 Analyzing a Profile
 

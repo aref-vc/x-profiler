@@ -2,35 +2,56 @@ import { NextRequest, NextResponse } from "next/server";
 import { XApiService } from "@/lib/services/x-api";
 import { GeminiApiService } from "@/lib/services/gemini-api";
 import { AnalysisResult } from "@/lib/types";
+import { validateApiKeys } from "@/lib/config/api-config";
+
+// Input validation helper
+function isValidUsername(username: string): boolean {
+  // Allow alphanumeric, underscore, and max 15 chars (Twitter username rules)
+  const usernameRegex = /^[a-zA-Z0-9_]{1,15}$/;
+  return usernameRegex.test(username);
+}
 
 export async function POST(request: NextRequest) {
   try {
-    const { username, xBearerToken, geminiApiKey } = await request.json();
+    const body = await request.json();
+    const { username, xBearerToken, geminiApiKey } = body;
 
-    if (!username) {
+    // Validate required fields
+    if (!username || typeof username !== 'string') {
       return NextResponse.json(
         { error: "Username is required" },
         { status: 400 }
       );
     }
 
-    if (!xBearerToken || !geminiApiKey) {
+    // Clean and validate username
+    const cleanUsername = username.replace("@", "").trim();
+
+    if (!isValidUsername(cleanUsername)) {
       return NextResponse.json(
-        { error: "API keys are required. Please configure them in settings." },
+        { error: "Invalid username format. Please use only letters, numbers, and underscores (max 15 characters)." },
         { status: 400 }
       );
     }
 
-    // Clean username (remove @ if present)
-    const cleanUsername = username.replace("@", "");
+    // Validate and get API keys securely
+    const apiValidation = validateApiKeys(xBearerToken, geminiApiKey);
 
-    // Initialize services with user-provided keys
-    const xApi = new XApiService(xBearerToken);
-    const geminiApi = new GeminiApiService(geminiApiKey);
+    if (!apiValidation.valid) {
+      return NextResponse.json(
+        { error: apiValidation.error || "API configuration error" },
+        { status: 400 }
+      );
+    }
+
+    const { xApiKey, geminiKey } = apiValidation;
+
+    // Initialize services with validated keys
+    const xApi = new XApiService(xApiKey);
+    const geminiApi = new GeminiApiService(geminiKey);
 
     try {
-      // Step 1: Get user profile
-      console.log(`Fetching profile for @${cleanUsername}...`);
+      // Step 1: Get user profile (no console logging in production)
       const userProfile = await xApi.getUserByUsername(cleanUsername);
 
       if (!userProfile) {
@@ -41,7 +62,6 @@ export async function POST(request: NextRequest) {
       }
 
       // Step 2: Get user's recent tweets
-      console.log(`Fetching tweets for user ID ${userProfile.id}...`);
       const tweets = await xApi.getUserTweets(userProfile.id, 100);
 
       if (!tweets || tweets.length === 0) {
@@ -55,7 +75,6 @@ export async function POST(request: NextRequest) {
       const tweetTexts = tweets.map(t => t.text);
 
       // Step 4: Perform AI analysis
-      console.log("Performing AI analysis with fallbacks...");
       const [contentAnalysis, voiceAnalysis, viralFormulas] = await Promise.all([
         geminiApi.analyzeContent(tweetTexts),
         geminiApi.analyzeVoice(tweetTexts),
@@ -155,7 +174,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(analysisResult);
 
     } catch (apiError: any) {
-      console.error("API error:", apiError);
 
       // Check for specific API errors
       if (apiError.message?.includes("User not found")) {
@@ -173,13 +191,14 @@ export async function POST(request: NextRequest) {
       }
 
       // Return error if APIs fail
-      console.error("API error - cannot analyze profile");
-
       throw apiError;
     }
 
   } catch (error) {
-    console.error("Analysis error:", error);
+    // Log errors securely (in production, use proper logging service)
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Analysis error:", error);
+    }
     return NextResponse.json(
       { error: "Failed to analyze profile. Please try again." },
       { status: 500 }

@@ -163,10 +163,10 @@ export class GeminiApiService {
 
     return {
       personality: {
-        humor: 65,
-        authority: 75,
-        empathy: 70,
-        controversy: 40,
+        humor: { score: 65, description: "Balanced humor with professional tone" },
+        authority: { score: 75, description: "Strong expertise and credibility" },
+        empathy: { score: 70, description: "Shows understanding and connection" },
+        controversy: { score: 40, description: "Avoids divisive topics" },
       },
       style: {
         complexity: avgLength > 200 ? "High" : avgLength > 100 ? "Moderate" : "Simple",
@@ -220,22 +220,51 @@ export class GeminiApiService {
     return {
       hookPatterns: {
         openingTypes: [
-          { type: "Question Hook", successRate: 75 },
-          { type: "Bold Statement", successRate: 70 },
-          { type: "Personal Story", successRate: 65 },
+          { type: "Question Hook", successRate: 75, examples: ["Have you ever wondered...?", "What if I told you...?"] },
+          { type: "Bold Statement", successRate: 70, examples: ["Here's the truth:", "Most people don't realize..."] },
+          { type: "Personal Story", successRate: 65, examples: ["Yesterday I learned...", "Last week I discovered..."] },
         ],
-        psychologicalTriggers: ["Curiosity", "FOMO", "Social Proof", "Authority"],
-        curiosityGaps: ["What happened next...", "You won't believe...", "Here's how..."],
+        psychologicalTriggers: [
+          { trigger: "Curiosity", effectiveness: 85, usage: ["Questions", "Teasers"] },
+          { trigger: "FOMO", effectiveness: 80, usage: ["Limited time", "Exclusive"] },
+          { trigger: "Social Proof", effectiveness: 75, usage: ["Others are doing", "Popular"] },
+          { trigger: "Authority", effectiveness: 70, usage: ["Expert says", "Studies show"] },
+        ],
+        curiosityGaps: [
+          { pattern: "What happened next...", completionRate: 75, engagement: 85 },
+          { pattern: "You won't believe...", completionRate: 70, engagement: 80 },
+          { pattern: "Here's how...", completionRate: 65, engagement: 75 },
+        ],
       },
       contentStructures: {
-        threadTemplates: ["1/ Introduction", "2-5/ Main points", "6/ Conclusion + CTA"],
-        storyArcs: ["Problem → Solution", "Before → After", "Myth → Reality"],
-        listFormats: ["Top 5...", "3 ways to...", "7 mistakes..."],
+        threadTemplates: [
+          { structure: "1/ Introduction → 2-5/ Main points → 6/ CTA", avgEngagement: 85, viralProbability: 65 },
+          { structure: "Hook → Story → Lesson", avgEngagement: 80, viralProbability: 60 },
+          { structure: "Question → Answer → Example", avgEngagement: 75, viralProbability: 55 },
+        ],
+        storyArcs: [
+          { beginning: "Problem", middle: "Analysis", end: "Solution", success: 85 },
+          { beginning: "Before", middle: "Transformation", end: "After", success: 80 },
+          { beginning: "Myth", middle: "Debunking", end: "Reality", success: 75 },
+        ],
+        listFormats: [
+          { type: "Top 5...", optimalLength: 5, engagement: 90 },
+          { type: "3 ways to...", optimalLength: 3, engagement: 85 },
+          { type: "7 mistakes...", optimalLength: 7, engagement: 80 },
+        ],
       },
       timingOptimization: {
-        optimalTimes: ["9 AM EST", "2 PM EST", "7 PM EST"],
+        optimalTimes: [
+          { hour: 9, dayOfWeek: "Weekday", engagement: 85 },
+          { hour: 14, dayOfWeek: "Weekday", engagement: 82 },
+          { hour: 19, dayOfWeek: "Weekend", engagement: 78 },
+        ],
         frequencyPattern: { postsPerDay: 2, engagementImpact: 85 },
-        seasonalTrends: ["Monday Motivation", "Thursday Thoughts", "Friday Insights"],
+        seasonalTrends: [
+          { period: "Monday", topics: ["Motivation", "Goals"], effectiveness: 80 },
+          { period: "Thursday", topics: ["Thoughts", "Reflection"], effectiveness: 75 },
+          { period: "Friday", topics: ["Insights", "Weekend"], effectiveness: 70 },
+        ],
       },
     };
   }

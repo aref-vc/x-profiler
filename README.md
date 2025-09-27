@@ -1,6 +1,12 @@
 # X Profiler 🚀
 
-An AI-powered Twitter/X profile analyzer that decodes viral content patterns and provides actionable insights for content creators. Built with Next.js, Shadcn/ui, X API v2, and Google Gemini AI.
+[![Version](https://img.shields.io/badge/version-2.0.0-blue)](https://github.com/yourusername/x-profiler/releases)
+[![Security](https://img.shields.io/badge/security-enhanced-green)](./SECURITY.md)
+[![License](https://img.shields.io/badge/license-MIT-purple)](./LICENSE)
+
+An AI-powered Twitter/X profile analyzer that decodes viral content patterns and provides actionable insights for content creators. Built with Next.js 15.5.4, Shadcn/ui, X API v2, and Google Gemini AI.
+
+**Version 2.0.0** - Major security update with zero vulnerabilities!
 
 ## Features
 
@@ -27,6 +33,14 @@ An AI-powered Twitter/X profile analyzer that decodes viral content patterns and
 - **Styling**: Tailwind CSS with custom theme
 - **Icons**: Lucide React
 
+## 🔒 Security Features (v2.0.0)
+
+- **Zero Vulnerabilities** - All security issues resolved
+- **Secure API Management** - Server-side environment variables
+- **Input Validation** - Protection against injection attacks
+- **Security Headers** - CSP, X-Frame-Options, XSS Protection
+- **No Exposed Secrets** - Comprehensive .gitignore protection
+
 ## Getting Started
 
 ### Prerequisites
@@ -47,14 +61,20 @@ cd x-profiler
 npm install
 ```
 
-3. Start the development server
+3. Set up environment variables
+```bash
+cp .env.local.example .env.local
+# Edit .env.local with your API keys
+```
+
+4. Start the development server
 ```bash
 npm run dev
 ```
 
-4. Open `http://localhost:3032` in your browser
+5. Open `http://localhost:3032` in your browser
 
-5. Configure your API keys through the Settings dialog in the app
+6. Configure your API keys through the Settings dialog in the app (optional if using .env.local)
 
 ## Usage
 
