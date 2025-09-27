@@ -1,6 +1,6 @@
-# X Profile Viral Intelligence 🚀
+# X Profiler 🚀
 
-An AI-powered analytics platform that decodes what makes X (Twitter) profiles and their content go viral. Built with Next.js, Shadcn/ui, X API v2, and Gemini AI.
+An AI-powered Twitter/X profile analyzer that decodes viral content patterns and provides actionable insights for content creators. Built with Next.js, Shadcn/ui, X API v2, and Google Gemini AI.
 
 ## Features
 
@@ -31,14 +31,15 @@ An AI-powered analytics platform that decodes what makes X (Twitter) profiles an
 
 ### Prerequisites
 - Node.js 18+ and npm
-- X Developer Account with API credentials
-- Google Cloud account with Gemini API access
+- X (Twitter) Developer Account
+- Google AI Studio Account
 
 ### Installation
 
 1. Clone the repository
 ```bash
-cd "/Users/aref/Documents/Claude Code/X Profiler"
+git clone https://github.com/yourusername/x-profiler.git
+cd x-profiler
 ```
 
 2. Install dependencies
@@ -46,25 +47,14 @@ cd "/Users/aref/Documents/Claude Code/X Profiler"
 npm install
 ```
 
-3. Configure environment variables
+3. Start the development server
 ```bash
-cp .env.local.example .env.local
-```
-
-Edit `.env.local` with your API credentials:
-```env
-X_BEARER_TOKEN=your_bearer_token
-GEMINI_API_KEY=your_gemini_api_key
-```
-
-4. Start the development server
-```bash
-./start.sh
-# or
 npm run dev
 ```
 
-The app will be available at `http://localhost:3032`
+4. Open `http://localhost:3032` in your browser
+
+5. Configure your API keys through the Settings dialog in the app
 
 ## Usage
 
@@ -127,7 +117,13 @@ npm run lint     # Run ESLint
 
 This application runs on **port 3032** as configured in the Claude Code port allocation system.
 
-## Features Roadmap
+## 📚 Documentation
+
+- [Architecture Overview](./docs/ARCHITECTURE.md) - Technical architecture and design
+- [How-To Guide](./docs/HOW-TO.md) - Detailed usage instructions
+- [Limitations](./docs/LIMITATIONS.md) - Current limitations and constraints
+
+## 🎯 Features Roadmap
 
 - [ ] Historical analysis tracking
 - [ ] Competitor comparison
@@ -135,11 +131,28 @@ This application runs on **port 3032** as configured in the Claude Code port all
 - [ ] Scheduled monitoring
 - [ ] Team collaboration features
 - [ ] API access for developers
+- [ ] Chrome extension
+- [ ] Mobile app
 
-## License
+## 🤝 Contributing
 
-Private project - All rights reserved
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Support
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Powered by [Google Gemini AI](https://ai.google.dev/)
+- Data from [X API v2](https://developer.twitter.com/)
+
+## 📧 Support
 
 For issues or questions, please create an issue in the project repository.
+
+---
+
+Made with ❤️ by developers, for content creators
