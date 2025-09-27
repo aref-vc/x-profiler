@@ -4,10 +4,10 @@ export class XApiService {
   private bearerToken: string;
   private baseUrl = "https://api.twitter.com/2";
 
-  constructor() {
-    this.bearerToken = process.env.X_BEARER_TOKEN || "";
+  constructor(bearerToken?: string) {
+    this.bearerToken = bearerToken || process.env.X_BEARER_TOKEN || "";
     if (!this.bearerToken) {
-      console.warn("X_BEARER_TOKEN not configured");
+      console.warn("X Bearer Token not configured");
     }
   }
 

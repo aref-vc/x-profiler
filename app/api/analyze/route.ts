@@ -5,7 +5,7 @@ import { AnalysisResult } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   try {
-    const { username } = await request.json();
+    const { username, xBearerToken, geminiApiKey } = await request.json();
 
     if (!username) {
       return NextResponse.json(
@@ -14,12 +14,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!xBearerToken || !geminiApiKey) {
+      return NextResponse.json(
+        { error: "API keys are required. Please configure them in settings." },
+        { status: 400 }
+      );
+    }
+
     // Clean username (remove @ if present)
     const cleanUsername = username.replace("@", "");
 
-    // Initialize services
-    const xApi = new XApiService();
-    const geminiApi = new GeminiApiService();
+    // Initialize services with user-provided keys
+    const xApi = new XApiService(xBearerToken);
+    const geminiApi = new GeminiApiService(geminiApiKey);
 
     try {
       // Step 1: Get user profile
@@ -48,7 +55,7 @@ export async function POST(request: NextRequest) {
       const tweetTexts = tweets.map(t => t.text);
 
       // Step 4: Perform AI analysis
-      console.log("Performing AI analysis...");
+      console.log("Performing AI analysis with fallbacks...");
       const [contentAnalysis, voiceAnalysis, viralFormulas] = await Promise.all([
         geminiApi.analyzeContent(tweetTexts),
         geminiApi.analyzeVoice(tweetTexts),
@@ -116,10 +123,10 @@ export async function POST(request: NextRequest) {
           growthRate: 0, // Would need historical data
         },
         content: {
-          topTopics: contentAnalysis.semanticTopics.primaryThemes.map((topic, i) => ({
+          topTopics: contentAnalysis?.semanticTopics?.primaryThemes?.map((topic, i) => ({
             topic,
             score: 85 - i * 10, // Estimated scores
-          })),
+          })) || [],
           topHashtags,
           contentMix: {
             original: tweets.filter(t => !t.referenced_tweets).length,
@@ -131,11 +138,11 @@ export async function POST(request: NextRequest) {
         },
         voice: voiceAnalysis,
         templates: {
-          hooks: viralFormulas.hookPatterns.openingTypes.slice(0, 3).map(hook => ({
+          hooks: viralFormulas?.hookPatterns?.openingTypes?.slice(0, 3).map(hook => ({
             pattern: hook.type,
             successRate: hook.successRate,
             engagementBoost: `+${Math.round(hook.successRate * 2)}%`,
-          })),
+          })) || [],
           topPerformers: viralTweets.slice(0, 3).map(tweet => ({
             text: tweet.text.substring(0, 100) + "...",
             engagement: tweet.public_metrics.like_count + tweet.public_metrics.retweet_count,
@@ -158,18 +165,15 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      if (apiError.message?.includes("Rate limit")) {
+      if (apiError.message?.includes("429") || apiError.message?.includes("Rate limit") || apiError.message?.includes("Too Many Requests")) {
         return NextResponse.json(
-          { error: "API rate limit reached. Please try again later." },
+          { error: "X API rate limit reached. Please wait a few minutes and try again." },
           { status: 429 }
         );
       }
 
-      // For development, return mock data if APIs fail
-      if (process.env.NODE_ENV === "development") {
-        console.log("Falling back to mock data...");
-        return NextResponse.json(getMockData(cleanUsername));
-      }
+      // Return error if APIs fail
+      console.error("API error - cannot analyze profile");
 
       throw apiError;
     }
@@ -181,86 +185,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-// Mock data fallback for development
-function getMockData(username: string): AnalysisResult {
-  return {
-    profile: {
-      username,
-      displayName: "Mock User",
-      verified: true,
-      followers: 125000,
-      following: 892,
-      tweets: 4523,
-      joinDate: "2020-03-15",
-      bio: "AI researcher, entrepreneur, tech enthusiast"
-    },
-    metrics: {
-      avgEngagement: 3.2,
-      viralRate: 12,
-      postsPerDay: 4.5,
-      replyRate: 78,
-      retweetRate: 234,
-      growthRate: 8.5
-    },
-    content: {
-      topTopics: [
-        { topic: "Artificial Intelligence", score: 85 },
-        { topic: "Technology Trends", score: 72 },
-        { topic: "Business Strategy", score: 68 },
-        { topic: "Innovation", score: 61 }
-      ],
-      topHashtags: ["#AI", "#Tech", "#Innovation", "#Future", "#MachineLearning"],
-      contentMix: {
-        original: 60,
-        replies: 25,
-        retweets: 15
-      },
-      bestTime: "2:00 PM EST",
-      peakDays: ["Tuesday", "Thursday"]
-    },
-    voice: {
-      personality: {
-        humor: { score: 78, description: "Frequently uses wit and humor" },
-        authority: { score: 85, description: "Strong expertise positioning" },
-        empathy: { score: 72, description: "Connects emotionally with audience" },
-        controversy: { score: 45, description: "Moderate controversial takes" }
-      },
-      style: {
-        complexity: "Moderate",
-        vocabulary: "Professional yet accessible",
-        sentenceLength: "Short to medium",
-        emojiUsage: 65
-      },
-      emotionalTone: [
-        { emotion: "Optimistic", score: 82 },
-        { emotion: "Professional", score: 79 },
-        { emotion: "Inspirational", score: 71 },
-        { emotion: "Casual", score: 58 }
-      ]
-    },
-    templates: {
-      hooks: [
-        {
-          pattern: "Controversial opinion: [STATEMENT]\\n\\nHere's why I'm right: [REASONING]",
-          successRate: 89,
-          engagementBoost: "+234%"
-        }
-      ],
-      topPerformers: [
-        {
-          text: "The future of AI isn't about replacing humans...",
-          engagement: 12500,
-          type: "thread"
-        }
-      ]
-    },
-    recommendations: [
-      "Post more threads - they get 3x more engagement",
-      "Increase posting frequency on Tuesdays",
-      "Use more questions as hooks",
-      "Engage more with replies for community building"
-    ]
-  };
 }

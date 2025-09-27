@@ -7,13 +7,13 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "X Profile Viral Intelligence",
-  description: "Decode what makes X profiles and content go viral with AI-powered analytics",
-  keywords: ["X analytics", "Twitter analytics", "viral content", "social media analysis", "content strategy"],
-  authors: [{ name: "X Profile Analyzer" }],
+  title: "X Profiler",
+  description: "Analyze X profiles with AI-powered insights",
+  keywords: ["X analytics", "Twitter analytics", "profile analysis", "social media analysis"],
+  authors: [{ name: "X Profiler" }],
   openGraph: {
-    title: "X Profile Viral Intelligence",
-    description: "Decode what makes X profiles and content go viral",
+    title: "X Profiler",
+    description: "Analyze X profiles with AI-powered insights",
     type: "website",
   },
 };

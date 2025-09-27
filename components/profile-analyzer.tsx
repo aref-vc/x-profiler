@@ -68,15 +68,35 @@ export function ProfileAnalyzer() {
         await new Promise(resolve => setTimeout(resolve, 800));
       }
 
-      // Simulate fetching analysis data
+      // Get API keys from localStorage
+      const settings = localStorage.getItem("xProfilerSettings");
+      if (!settings) {
+        setError("Please configure your API keys in Settings first.");
+        setIsAnalyzing(false);
+        return;
+      }
+
+      const { xBearerToken, geminiApiKey } = JSON.parse(settings);
+      if (!xBearerToken || !geminiApiKey) {
+        setError("Both API keys are required. Please configure them in Settings.");
+        setIsAnalyzing(false);
+        return;
+      }
+
+      // Fetch analysis data with API keys
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: username.replace("@", "") })
+        body: JSON.stringify({
+          username: username.replace("@", ""),
+          xBearerToken,
+          geminiApiKey
+        })
       });
 
       if (!response.ok) {
-        throw new Error("Failed to analyze profile");
+        const error = await response.json();
+        throw new Error(error.error || "Failed to analyze profile");
       }
 
       const data = await response.json();
@@ -108,7 +128,7 @@ export function ProfileAnalyzer() {
             <div className="flex gap-2">
               <Input
                 id="username"
-                placeholder="@elonmusk or elonmusk"
+                placeholder="Enter username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}

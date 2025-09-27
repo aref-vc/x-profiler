@@ -14,11 +14,11 @@ export function HeroSection() {
       </div>
 
       <h1 className="text-5xl font-bold bg-gradient-to-r from-secondary via-accent to-primary bg-clip-text text-transparent">
-        X Profile Viral Intelligence
+        X Profiler
       </h1>
 
       <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-        Decode what makes X profiles and their content go viral with AI-powered analytics
+        Analyze X profiles with AI-powered insights
       </p>
 
       <div className="flex gap-3 justify-center flex-wrap">
