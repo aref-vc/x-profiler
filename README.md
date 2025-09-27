@@ -6,6 +6,8 @@
 
 An AI-powered Twitter/X profile analyzer that decodes viral content patterns and provides actionable insights for content creators. Built with Next.js 15.5.4, Shadcn/ui, X API v2, and Google Gemini AI.
 
+![X Profiler Homepage](./screenshots/homepage.png)
+
 **Version 2.0.0** - Major security update with zero vulnerabilities!
 
 ## Features
