@@ -38,9 +38,6 @@ x-profiler/
 ├── screenshots/              # Application screenshots
 │   └── homepage.png
 │
-├── scripts/                  # Utility scripts
-│   └── start.sh
-│
 ├── public/                   # Static assets
 │
 ├── .env.local.example        # Environment variables template
@@ -48,6 +45,7 @@ x-profiler/
 ├── CHANGELOG.md              # Version history
 ├── README.md                 # Project documentation
 ├── SECURITY.md               # Security policies
+├── start.sh                  # Quick start script
 │
 ├── next.config.ts            # Next.js configuration
 ├── tsconfig.json             # TypeScript configuration
