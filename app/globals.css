@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 203 100% 14%;
+    --secondary: 31 100% 48%;
+    --accent: 40 97% 64%;
+    --background: 0 0% 4%;
+    --foreground: 49 60% 82%;
+    --muted: 0 0% 10%;
+    --card: 0 0% 8%;
+    --destructive: 0 69% 49%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 40 97% 64%;
+    --radius: 0.5rem;
+
+    /* Additional semantic colors */
+    --primary-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 98%;
+    --accent-foreground: 0 0% 4%;
+    --muted-foreground: 49 30% 60%;
+    --card-foreground: 49 60% 82%;
+    --destructive-foreground: 0 0% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 49 60% 82%;
+  }
+
+  .dark {
+    --primary: 203 100% 14%;
+    --secondary: 31 100% 48%;
+    --accent: 40 97% 64%;
+    --background: 0 0% 4%;
+    --foreground: 49 60% 82%;
+    --muted: 0 0% 10%;
+    --card: 0 0% 8%;
+    --destructive: 0 69% 49%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 40 97% 64%;
+
+    /* Additional semantic colors */
+    --primary-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 98%;
+    --accent-foreground: 0 0% 4%;
+    --muted-foreground: 49 30% 60%;
+    --card-foreground: 49 60% 82%;
+    --destructive-foreground: 0 0% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 49 60% 82%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  /* Glassmorphism effect for cards */
+  .glass-card {
+    @apply bg-card/50 backdrop-blur-md border border-border/50;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.01) 100%
+    );
+  }
+
+  /* Glow effect for accent elements */
+  .glow-accent {
+    box-shadow: 0 0 20px rgba(40, 97, 64, 0.3),
+                0 0 40px rgba(40, 97, 64, 0.1);
+  }
+
+  /* Primary button style */
+  .btn-primary-glow {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+    box-shadow: 0 0 20px rgba(203, 100, 14, 0.2);
+  }
+
+  /* Secondary button style */
+  .btn-secondary-glow {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90;
+    box-shadow: 0 0 20px rgba(31, 100, 48, 0.2);
+  }
+}
