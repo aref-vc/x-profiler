@@ -219,3 +219,5 @@ api-keys.txt
 secrets.txt
 credentials.json
 config.secret.js
+# Claude Code local settings - DO NOT COMMIT
+.claude/
